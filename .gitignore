@@ -1,5 +1,5 @@
 .idea
 __pycache__
-.idea
 .DS_Store
 parameters.db
+data_center/*

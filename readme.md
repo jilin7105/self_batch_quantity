@@ -1,4 +1,4 @@
-source activate  data_center
+~~source activate  data_center~~
 
 
 ### 操作流程
