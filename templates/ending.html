@@ -1,0 +1,21 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MP4 文件列表</title>
+</head>
+<body>
+    <h1>MP4 文件列表</h1>
+    <ul>
+        {% for file in files %}
+        <li>
+            {{ file }}
+            <form action="/create_ending" method="get">
+                <input type="hidden" name="filename" value="{{ file }}">
+                <button type="submit">处理</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task List</title>
+    <link rel="stylesheet" type="text/css" href="static/css/tasks.styles.css">
+</head>
+<body>
+    <h1>Task List</h1>
+    <table class="task-table">
+        <tr>
+            <th>ID</th>
+            <th>Parameter</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.id }}</td>
+            <td>{{ task.parameter }}</td>
+            <td>{{ task.status }}</td>
+            <td>
+                <form action="/update_status" method="post">
+                    <input type="hidden" name="task_id" value="{{ task.id }}">
+                    <select name="status">
+                        <option value="0" {% if task.status == 0 %}selected{% endif %}>待处理</option>
+                        <option value="1" {% if task.status == 1 %}selected{% endif %}>剪辑中</option>
+                        <option value="2" {% if task.status == 2 %}selected{% endif %}>剪辑完成</option>
+                    </select>
+                    <button class="update-button" type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
