@@ -3,6 +3,10 @@ import json
 
 DATABASE_FILE = 'parameters.db'
 
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE_FILE)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 def init():
     conn = sqlite3.connect(DATABASE_FILE)
@@ -22,6 +26,50 @@ def init():
         ''')
         conn.commit()
 
+    # 检测表是否存在，如果不存在则创建
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='videoOut'")
+    result = cursor.fetchone()
+    if not result:
+        cursor.execute('''
+               CREATE TABLE videoOut (
+                   id INTEGER PRIMARY KEY AUTOINCREMENT,
+                   job_id INTEGER ,
+                   video_path TEXT,
+                   image_path TEXT,
+                   status INTEGER DEFAULT 0,
+                   path TEXT
+               )
+           ''')
+        conn.commit()
+
+    conn.close()
+
+
+#
+def get_videoOut_count_by_imagePAth(path):
+    conn = sqlite3.connect(DATABASE_FILE)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT count(*) as count FROM videoOut WHERE image_path = ?   LIMIT 1",(path,) )
+    result = cursor.fetchone()[0]
+
+    conn.close()
+
+    if result:
+
+
+        return result
+    else:
+        return 0
+
+
+def set_videoOut(job_id,video_path,image_path,path):
+    conn = sqlite3.connect(DATABASE_FILE)
+    cursor = conn.cursor()
+
+    # 插入参数记录
+    cursor.execute("INSERT INTO videoOut (job_id, video_path,image_path,path) VALUES (?, ?,?,?)", (job_id,video_path,image_path,path))
+    conn.commit()
 
     conn.close()
 
@@ -81,6 +129,28 @@ def get_pending_job():
     else:
         return None
 
+def get_all_redy_jobs():
+    conn = sqlite3.connect(DATABASE_FILE)
+    cursor = conn.cursor()
+
+    # 获取所有任务
+    cursor.execute("SELECT * FROM parameters where status =0")
+    results = cursor.fetchall()
+
+    conn.close()
+
+    jobs = []
+    for row in results:
+        job_id, parameter, status, result = row
+        job = {
+            'id': job_id,
+            'parameter': parameter,
+            'status': status,
+            'result': result
+        }
+        jobs.append(job)
+
+    return jobs
 
 
 def get_all_jobs():
@@ -98,7 +168,7 @@ def get_all_jobs():
         job_id, parameter, status, result = row
         job = {
             'id': job_id,
-            'parameter': parameter,
+            'parameter': json.loads(parameter),
             'status': status,
             'result': result
         }

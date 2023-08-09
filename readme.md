@@ -64,3 +64,9 @@
 
 
 ### 以上是0.0.3 版本全部功能  看代码把 ，应该能看懂，
+### 配套安装
+1. 用于视频合成的底层软件 ffmpeg
+https://trac.ffmpeg.org/wiki/CompilationGuide
+
+2. 在视频中增加文案的软件 
+http://www.imagemagick.org/script/download.php

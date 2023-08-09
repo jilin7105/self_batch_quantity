@@ -9,14 +9,23 @@
     <table class="task-table">
         <tr>
             <th>ID</th>
-            <th>Parameter</th>
+            <th>视频</th>
+            <th>封面</th>
+            <th>剪辑</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
         {% for task in tasks %}
         <tr>
             <td>{{ task.id }}</td>
-            <td>{{ task.parameter }}</td>
+            <td>视频：{{ task.parameter.name }}</td>
+            <td>封面图： {{ task.parameter.fengmian }}</td>
+             <td>
+                    {% for cut in task.parameter.cutlist %}
+                         <p>{{ "{} - {}".format(cut.start,cut.end) }}</p>
+                    {% endfor %}
+             </td>
+
             <td>{{ task.status }}</td>
             <td>
                 <form action="/update_status" method="post">

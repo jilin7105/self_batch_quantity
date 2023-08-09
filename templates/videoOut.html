@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Video List{% endblock %}
+
+{% block content %}
+  <div class="container">
+
+    <h1>Video List</h1>
+
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Video Path</th>
+          <th>Image Path</th>
+          <th>Status</th>
+          <th>Path</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for video in videos %}
+        <tr>
+          <td>{{ video["id"] }}</td>
+          <td>{{ video["video_path"] }}</td>
+          <td>{{ video["image_path"] }}</td>
+          <td>{{ video["status"] }}</td>
+          <td>{{ video["path"] }}</td>
+          <td>
+            <a class="btn btn-primary" href="{{ url_for('edit', video_id=video['id']) }}">Edit</a>
+            <form method="POST" action="{{ url_for('delete', video_id=video['id']) }}" style="display: inline;">
+              <input type="submit" class="btn btn-danger" value="Delete">
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <form method="POST" action="{{ url_for('search') }}">
+      <div class="form-row">
+        <div class="col">
+          <input type="text" class="form-control" name="keyword" placeholder="Keyword">
+        </div>
+        <div class="col">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </div>
+    </form>
+
+
+  </div>
+{% endblock %}

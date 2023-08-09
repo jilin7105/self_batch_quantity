@@ -1,11 +1,9 @@
-<!-- index.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>MP4 文件列表</title>
-</head>
-<body>
-    <h1>MP4 文件列表</h1>
+{% extends 'base.html' %}
+
+{% block title %}Video List{% endblock %}
+
+{% block content %}
+  <div class="container">
     <ul>
         {% for file in files %}
         <li>
@@ -17,5 +15,6 @@
         </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+  </div>
+{% endblock %}
+
